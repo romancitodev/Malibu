@@ -1,3 +1,4 @@
+from typing import Any
 import src.models as mods
 import src.types as types
 
@@ -9,7 +10,7 @@ class App:
     def __init__(self) -> None:
         self.__validator = mods.Validator.Validator()
         self.__employee: mods.Employee.EmployeeBase | None  = None
-
+    #type: ignore
     def __test_login(self, credentials: types.Employee.EmployeeDict = {}, level: int = 1):
         employees = {1: mods.Employee.EmployeeCashier,2: mods.Employee.EmployeeSupervisor}
         if credentials:
@@ -33,26 +34,30 @@ class App:
     
             except Exception as e:
                 print(e)
-        self.listener.run_event('NewEmployee', self.__employee)
+        if self.listener != None:
+            self.listener.run_event('NewEmployee', self.__employee)
 
     def __add_customer(self, customer_credentials: types.Customer.CustomerDict, level: int = 1) -> mods.Customer.CustomerBase:
         customers = {1: mods.Customer.CustomerBasic, 2: mods.Customer.CustomerPremium, 3: mods.Customer.CustomerElite}
         customer = customers[level](customer_credentials)
-        self.listener.run_event('NewCustomer', customer)
+        if self.listener != None:
+            self.listener.run_event('NewCustomer', customer)
         print('[+] Customer aggregated')
         return customer
 
     def __add_order(self):
-        order_generator = mods.OrderMaker.OrderGen()
-        customer_credentials = {}
-        for c in ['name','lastname','email','phone']:
-                    string = input(f'{c}: ')
-                    if not self.__validator.validate(c, string):
-                        raise mods.Error.InvalidRegistry(f'Invalid string:\n{string}')
-                    customer_credentials.update({c: string})
-        order = order_generator.make_order(self.__add_customer(customer_credentials), self.__employee)
-        self.listener.run_event('NewOrder',order=order)
-        print('[+] Order generated')
+        if self.__employee != None:
+            order_generator = mods.OrderMaker.OrderGen()
+            customer_credentials: dict[str, Any] = {}
+            for c in ['name','lastname','email','phone']:
+                        string = input(f'{c}: ')
+                        if not self.__validator.validate(c, string):
+                            raise mods.Error.InvalidRegistry(f'Invalid string:\n{string}')
+                        customer_credentials.update({c: string})
+            order = order_generator.make_order(self.__add_customer(customer_credentials), self.__employee)
+            if self.listener != None:
+                self.listener.run_event('NewOrder',order=order)
+            print('[+] Order generated')
     
     def start(self, credentials: types.Employee.EmployeeDict = {}, level: int = 1):
         print("[!] setuping listener...")

@@ -26,7 +26,7 @@ class CustomerBase(abc.ABC):
             TypesCustomer.PREMIUM : 0.2,
             TypesCustomer.ELITE : 0.5
         }
-        return discounts.get(self.customer_info['type'], 0.0) 
+        return discounts.get(self.customer_info.get('type', TypesCustomer.BASIC), 0.0) 
 
 
 class CustomerBasic(CustomerBase):

@@ -21,7 +21,7 @@ class EmployeeBase(abc.ABC):
 class EmployeeCashier(EmployeeBase):
 
     def __init__(self, data: EmployeeDict) -> None:
-        super().__init__(data | {"type" : TypesEmployee.CASHIER})
+        super().__init__(data | {"type" : TypesEmployee.CASHIER}) 
 
 
 class EmployeeSupervisor(EmployeeBase):

@@ -3,7 +3,7 @@ from ..models.EventManager import EventManager
 from ..events.new_order import NewOrder
 from ..events.new_customer import NewCustomer
 
-def setup_listener(listener: EventManager, pre_events: list[Event] = [NewOrder('NewTicket'),NewCustomer('NewCustomer')]) -> EventManager:
+def setup_listener(listener: EventManager, pre_events: list[Event] = [NewOrder('NewOrder'),NewCustomer('NewCustomer')]) -> EventManager:
     """
     setup the event manager
     `listener`: EventManager
@@ -25,6 +25,6 @@ def setup_listener(listener: EventManager, pre_events: list[Event] = [NewOrder('
         for pre in pre_events:
             listener.add_event(pre)
         return listener
-    except:
-        return Exception()
+    except Exception as e:
+        raise Exception(e) from None
     

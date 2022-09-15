@@ -1,5 +1,5 @@
-from typing import NewType
 import enum
+from typing import Any
 
 class TypesEmployee(enum.Enum):
     '''
@@ -8,7 +8,8 @@ class TypesEmployee(enum.Enum):
     CASHIER = enum.auto()
     SUPERVISOR = enum.auto()
 
-EmployeeDict = NewType('EmployeeDict', dict)
+EmployeeDict = dict[str, Any]
+
 '''
     username: str,
     passsword: ValidPassword

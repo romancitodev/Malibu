@@ -1,5 +1,5 @@
-from typing import NewType
 import enum
+from typing import Any
 
 class TypesCustomer(enum.Enum):
     '''
@@ -9,7 +9,7 @@ class TypesCustomer(enum.Enum):
     PREMIUM = enum.auto()
     ELITE = enum.auto()
 
-CustomerDict = NewType('CustomerDict', dict)
+CustomerDict = dict[str, Any]
 '''
     name: str,
     lastname: str

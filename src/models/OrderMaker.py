@@ -1,7 +1,7 @@
 import src.models as mods
 
 
-class OrderGen:
+class OrderMaker:
     
     def make_order(self, customer: mods.Customer.CustomerBase, employee: mods.Employee.EmployeeBase, apply_discount: bool = False):
         limit = int(input("digit the number of products: "))

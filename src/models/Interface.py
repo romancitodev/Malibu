@@ -1,7 +1,6 @@
-from typing import Any
 import src.models as mods
 import src.types as types
-
+from typing import Any
 class App:
     '''
     @TODO: aggregate plugins like (Validator, Login)
@@ -10,30 +9,22 @@ class App:
     def __init__(self) -> None:
         self.__validator = mods.Validator.Validator()
         self.__employee: mods.Employee.EmployeeBase | None  = None
-    #type: ignore
-    def __test_login(self, credentials: types.Employee.EmployeeDict = {}, level: int = 1):
-        employees = {1: mods.Employee.EmployeeCashier,2: mods.Employee.EmployeeSupervisor}
-        if credentials:
-            try:
-                for k, v in credentials.items():
-                    if not self.__validator.validate(k, v):
-                        raise mods.Error.InvalidRegistry(f'Invalid key or string:\n{k} - {v}')
-                self.__employee = employees[level](credentials)
-                print("[+] Login succesfully")
-            except Exception as e:
-                print("[-] Error on login:")
-                print(e)
-        else:
-            try:
-                for c in ['username','password']:
-                    string = input(f'{c}: ')
-                    if not self.__validator.validate(c, string):
-                        raise mods.Error.InvalidRegistry(f'Invalid string:\n{string}')
-                    credentials.update({c: string})
-                self.__employee = employees[level](credentials)
+
     
-            except Exception as e:
-                print(e)
+    def __test_login(self, credentials: types.Employee.EmployeeDict, level: int = 1):
+        employees = {1: mods.Employee.EmployeeCashier,2: mods.Employee.EmployeeSupervisor}
+       
+        v = {'username': credentials.username, 'password': credentials.password}
+        try:
+            for k in v:
+                if not self.__validator.validate(k, v[k]):
+                    raise mods.Error.InvalidRegistry(f'Invalid key or string:\n{k} - {v[k]}')
+            self.__employee = employees[level](credentials)
+            print("[+] Login succesfully")
+        except AttributeError as e:
+            print("[-] Error on login:")
+            print(e)
+            exit()
         if self.listener != None:
             self.listener.run_event('NewEmployee', self.__employee)
 
@@ -47,25 +38,26 @@ class App:
 
     def __add_order(self):
         if self.__employee != None:
-            order_generator = mods.OrderMaker.OrderGen()
-            customer_credentials: dict[str, Any] = {}
+            order_generator = mods.OrderMaker.OrderMaker()
+            customer_credentials :dict[str, Any] = {}  
             for c in ['name','lastname','email','phone']:
                         string = input(f'{c}: ')
                         if not self.__validator.validate(c, string):
                             raise mods.Error.InvalidRegistry(f'Invalid string:\n{string}')
                         customer_credentials.update({c: string})
-            order = order_generator.make_order(self.__add_customer(customer_credentials), self.__employee)
+            discount = bool(input("[>] Apply discount? : "))
+            order = order_generator.make_order(self.__add_customer(types.Customer.CustomerDict(**customer_credentials)), self.__employee, discount)
             if self.listener != None:
                 self.listener.run_event('NewOrder',order=order)
             print('[+] Order generated')
     
-    def start(self, credentials: types.Employee.EmployeeDict = {}, level: int = 1):
+    def start(self, credentials: types.Employee.EmployeeDict, level: int = 1):
         print("[!] setuping listener...")
         try:
             self.listener = mods.EventManager.EventManager().setup('./src/events')
             print('[+] listener OK')
         except Exception as e:
-            print(f'[-] listener started with failures.\n[>] {e}')
+            print(f'[-] listener started with failures.\n\t* {e}')
         self.__test_login(credentials, level)
         self.main()
 

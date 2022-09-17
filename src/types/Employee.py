@@ -1,5 +1,6 @@
 import enum
-from typing import Any
+from typing import NamedTuple
+from uuid import UUID
 
 class TypesEmployee(enum.Enum):
     '''
@@ -8,9 +9,8 @@ class TypesEmployee(enum.Enum):
     CASHIER = enum.auto()
     SUPERVISOR = enum.auto()
 
-EmployeeDict = dict[str, Any]
-
-'''
-    username: str,
-    passsword: ValidPassword
-'''
+class EmployeeDict(NamedTuple):
+    username:str
+    password:str
+    type:TypesEmployee= TypesEmployee.CASHIER
+    id: int | UUID = 0 

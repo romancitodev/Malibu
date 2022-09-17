@@ -1,5 +1,6 @@
 import enum
-from typing import Any
+from typing import NamedTuple
+from uuid import UUID
 
 class TypesCustomer(enum.Enum):
     '''
@@ -9,10 +10,11 @@ class TypesCustomer(enum.Enum):
     PREMIUM = enum.auto()
     ELITE = enum.auto()
 
-CustomerDict = dict[str, Any]
-'''
-    name: str,
+class CustomerDict(NamedTuple):
+    name: str
     lastname: str
-    email: ValidEmail
+    email: str
     phone: str
-'''
+    type: TypesCustomer = TypesCustomer.BASIC
+    id: int | UUID = 0
+

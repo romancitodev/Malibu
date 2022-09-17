@@ -12,6 +12,6 @@ class NewCustomer(Event):
     
     def run(self, customer: CustomerBase) -> None: #type: ignore
         self.logging.info(' New Customer '.center(50, '-'))
-        self.logging.info(f'[Customer]: {customer.customer_info.get("name","").capitalize()}')
-        self.logging.info(f'[Customer]: {customer.customer_info.get("type")}') 
-        self.logging.info(f'[Customer]: {customer.customer_info.get("id")}') 
+        self.logging.info(f'[Customer]: {customer.customer_info.name.capitalize()}')
+        self.logging.info(f'[Customer]: {customer.customer_info.type}') 
+        self.logging.info(f'[Customer]: {customer.customer_info.id}') 

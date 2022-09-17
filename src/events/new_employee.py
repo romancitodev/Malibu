@@ -13,6 +13,6 @@ class NewEmployee(Event):
     
     def run(self, employee: EmployeeBase) -> None: #type: ignore
         self.logging.info(' Employee logged  '.center(50, '-'))
-        self.logging.info(f'[Employee]: {employee.employee_info.get("username","").capitalize()}')
-        self.logging.info(f'[Employee]: {employee.employee_info.get("type")}') 
-        self.logging.info(f'[Employee]: {employee.employee_info.get("id")}') 
+        self.logging.info(f'[Employee]: {employee.employee_info.username.capitalize()}')
+        self.logging.info(f'[Employee]: {employee.employee_info.type}') 
+        self.logging.info(f'[Employee]: {employee.employee_info.id}') 

@@ -12,14 +12,17 @@ class NewOrder(mods.Event.Event):
         try:
             # Customer data
             self.logging.info(' Order Generated '.center(50, '-'))
-            self.logging.info(f'[Customer]: {order.customer.customer_info.get("lastname","U.").capitalize()}, {order.customer.customer_info.get("name","U.").capitalize()}')
-            self.logging.info(f'[Customer]: {order.customer.customer_info.get("id")}') 
+            self.logging.info(f'[Customer]: {order.customer.customer_info.lastname.capitalize()}, {order.customer.customer_info.name.capitalize()}')
+            self.logging.info(f'[Customer]: {order.customer.customer_info.id}') 
             # Employee data
-            self.logging.info(f'[Employee]: {order.employee.employee_info.get("username","Uknown").capitalize()}')
-            self.logging.info(f'[Employee]: {order.employee.employee_info.get("id")}')
+            self.logging.info(f'[Employee]: {order.employee.employee_info.username.capitalize()}')
+            self.logging.info(f'[Employee]: {order.employee.employee_info.id}')
             # Ticket data
-            self.logging.info(f'[Order]: {len(order.products)}')
+            self.logging.info("[Order]: Products:\n\t* " + '\n\t* '.join([f'{p.name} - {p.price}' for p in order.products]))
+            self.logging.info(f'[Order]: {len(order.products)} products in total')
             self.logging.info(f'[Order]: ${functools.reduce(lambda curr, prev: curr + prev, [p.price for p in order.products])}')
-            self.logging.info(f"[Order]: {order.__dict__}")
+            if order.discount:
+                total = sum(p.price for p in order.products)
+                self.logging.info(f'[Order] discount: ${total -  (total * order.customer.avaiable_discount)}')
         except Exception as e:
             self.logging.error(f'[NewOrder] {e.with_traceback(None)}')

@@ -1,19 +1,12 @@
 import abc
-from src.models.Error import NotValidKeys
-from src.utils.functions import generate_random_id 
 from src.types.Customer import CustomerDict, TypesCustomer
+from  src.utils.functions import generate_random_id
 
 
 class CustomerBase(abc.ABC):
     
     def __init__(self, data: CustomerDict) -> None:
-        self.__id = generate_random_id()
         self.__data = data
-        self.__data.update({'id': self.__id})
-        if not self.__check_data(data): raise NotValidKeys('keys of @data is not the spectated.')
-
-    def __check_data(self, data: CustomerDict) -> bool:
-        return all([x in data for x in ['name','lastname','email','phone']])
 
     @property
     def customer_info(self):
@@ -26,17 +19,17 @@ class CustomerBase(abc.ABC):
             TypesCustomer.PREMIUM : 0.2,
             TypesCustomer.ELITE : 0.5
         }
-        return discounts.get(self.customer_info.get('type', TypesCustomer.BASIC), 0.0) 
+        return discounts.get(self.customer_info.type, 0.0) 
 
 
 class CustomerBasic(CustomerBase):
     def __init__(self, data: CustomerDict) -> None:
-        super().__init__(data | {"type":TypesCustomer.BASIC})
+        super().__init__(CustomerDict(data.name, data.lastname, data.email, data.phone, TypesCustomer.BASIC, generate_random_id()))
 
 class CustomerPremium(CustomerBase):
     def __init__(self, data: CustomerDict) -> None:
-        super().__init__(data | {"type": TypesCustomer.PREMIUM})
+        super().__init__(CustomerDict(data.name, data.lastname, data.email, data.phone, TypesCustomer.PREMIUM, generate_random_id()))
 
 class CustomerElite(CustomerBase):
     def __init__(self, data: CustomerDict) -> None:
-        super().__init__(data | {"type": TypesCustomer.ELITE})
+        super().__init__(CustomerDict(data.name, data.lastname, data.email, data.phone, TypesCustomer.ELITE,  generate_random_id()))

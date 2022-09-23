@@ -7,7 +7,7 @@ class NewCustomer(Event):
     '''
     NewCustomer Event
     '''
-    def __init__(self, name_event: str) -> None:
+    def __init__(self, name_event: str = 'NewCustomer') -> None:
         super().__init__(name_event)
     
     def run(self, customer: CustomerBase) -> None: #type: ignore

@@ -1,14 +1,15 @@
 
 import functools
-import src.models as mods
+from src.models.Order import Order
+from src.models.Event import Event
 
 
-class NewOrder(mods.Event.Event):
+class NewOrder(Event):
 
-    def __init__(self, name_event: str) -> None:
+    def __init__(self, name_event: str = 'NewOrder') -> None:
         super().__init__(name_event)
     
-    def run(self, order:mods.Order.Order): #type: ignore
+    def run(self, order:Order): #type: ignore
         try:
             # Customer data
             self.logging.info(' Order Generated '.center(50, '-'))

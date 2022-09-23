@@ -8,7 +8,7 @@ class NewEmployee(Event):
     '''
     NewEmployee Event
     '''
-    def __init__(self, name_event: str) -> None:
+    def __init__(self, name_event: str = 'NewEmployee') -> None:
         super().__init__(name_event)
     
     def run(self, employee: EmployeeBase) -> None: #type: ignore

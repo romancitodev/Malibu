@@ -1,6 +1,8 @@
 import src.models as mods
 import src.types as types
 from typing import Any
+
+from src.types.Customer import TypesCustomer
 class App:
     '''
     @TODO: aggregate plugins like (Validator, Login)
@@ -9,7 +11,6 @@ class App:
     def __init__(self) -> None:
         self.__validator = mods.Validator.Validator()
         self.__employee: mods.Employee.EmployeeBase | None  = None
-
     
     def __test_login(self, credentials: types.Employee.EmployeeDict, level: int = 1):
         employees = {1: mods.Employee.EmployeeCashier,2: mods.Employee.EmployeeSupervisor}
@@ -45,10 +46,14 @@ class App:
                         if not self.__validator.validate(c, string):
                             raise mods.Error.InvalidRegistry(f'Invalid string:\n{string}')
                         customer_credentials.update({c: string})
-            discount = bool(input("[>] Apply discount? : "))
-            order = order_generator.make_order(self.__add_customer(types.Customer.CustomerDict(**customer_credentials)), self.__employee, discount)
+            discount = input("[>] Apply discount? : ").lower() in "yes"
+            customer_types = {1: TypesCustomer.BASIC, 2:TypesCustomer.PREMIUM, 3: TypesCustomer.ELITE}
+            customer_type = int(input("[>] Membership of customer: "))
+            customer_credentials.update({"type": customer_types[customer_type]})
+            print(customer_credentials)
+            order = order_generator.make_order(self.__add_customer(types.Customer.CustomerDict(**customer_credentials), customer_credentials['type'].value), self.__employee, discount)
             if self.listener != None:
-                self.listener.run_event('NewOrder',order=order)
+                self.listener.run_event('NewOrder', order)
             print('[+] Order generated')
     
     def start(self, credentials: types.Employee.EmployeeDict, level: int = 1):
@@ -69,11 +74,13 @@ class App:
                 print(f"{key.value}. {value}")
             opt = int(input("Select a choice: "))
             if opt not in [x.value for x in options.keys()]:
+                print(f"{opt} not valid.")
                 continue
             else:
                 return opt
     
     def main(self):
-        functions = {1: self.__add_order, 2: exit}
-        option = self.choose_option()
-        functions[option]()
+        while True:
+            functions = {1: self.__add_order, 2: exit}
+            option = self.choose_option()
+            functions[option]()

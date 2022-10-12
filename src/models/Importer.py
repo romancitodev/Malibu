@@ -15,7 +15,7 @@ class Reason(Exception):
 
 class Importer():
 
-    def import_from(self, path: str, superclass: Type[T] = Any, blacklist: list[type] = [Any], init_components: bool = True, exclude : list[type] = [Any], verboose : bool = False) -> dict[str, T]:
+    def import_from(self, path: str, superclass: Type[T] = Any, blacklist: list[type] = [Any], init_components: bool = True, exclude: list[type] = [Any], verboose : bool = False) -> dict[str, T]:
         """
         `@params`
         path - the path of the classes to import
@@ -30,6 +30,7 @@ class Importer():
             reason = ""
             with open(f'{file}','r') as f:
                 txt = f.read()
+                f.close()
                 filename = re.search(r"(\w{1,})\.py", file)
                 name = re.search(r"(?:class)\s(\w{1,})+(?:\((.{1,})\))?:", txt)
                 try:
@@ -65,9 +66,7 @@ class Importer():
                                 print(f"{COLORS['GREEN']} [>] Saving {name} ... {COLORS['RESET']}")
                             files.update({name: getattr(imported, name)})
                     else:
-                        print(name, filename)
                         print(f"{COLORS['YELLOW']} [>] Passing {filename.group(1)}.py ... {COLORS['RESET']}") #type: ignore
-                        pass
                 except Reason as err:
                     if verboose:
                         print(f"{COLORS['YELLOW']} [>] Passing {filename}.py ... {COLORS['RESET']}\n\t * Reason: {reason}")

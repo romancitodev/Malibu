@@ -1,6 +1,7 @@
 import abc
+
 from src.types.Customer import CustomerDict, TypesCustomer
-from  src.utils.functions import generate_random_id
+from src.utils.functions import generate_random_id
 
 
 class CustomerBase(abc.ABC):

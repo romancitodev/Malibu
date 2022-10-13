@@ -1,7 +1,8 @@
 
 import functools
-from src.models.Order import Order
+
 from src.models.Event import Event
+from src.models.Order import Order
 
 
 class NewOrder(Event):

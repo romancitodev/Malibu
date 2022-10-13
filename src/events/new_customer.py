@@ -1,6 +1,6 @@
 
-from src.models.Event import Event
 from src.models.Customer import CustomerBase
+from src.models.Event import Event
 
 
 class NewCustomer(Event):

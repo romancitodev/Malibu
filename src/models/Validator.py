@@ -1,7 +1,10 @@
 import re
-from src.validator.regex import Config
+
 from src.models.Error import InvalidMode
 from src.types.Validator import ValidConfig
+from src.validator.regex import Config
+
+
 class Validator:
     
     def __init__(self) -> None:

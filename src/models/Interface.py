@@ -1,8 +1,10 @@
-import src.models as mods
-import src.types as types
 from typing import Any
 
+import src.models as mods
+import src.types as types
 from src.types.Customer import TypesCustomer
+
+
 class App:
     '''
     @TODO: aggregate plugins like (Validator, Login)

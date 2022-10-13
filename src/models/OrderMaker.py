@@ -1,4 +1,4 @@
-from src.models import Employee, Customer, Product, Order
+from src.models import Customer, Employee, Order, Product
 
 
 class OrderMaker:

@@ -1,6 +1,7 @@
-from .Product import Product
 from src.models.Customer import CustomerBase
 from src.models.Employee import EmployeeBase
+
+from .Product import Product
 
 
 class Order:

@@ -1,7 +1,7 @@
 
 
-from src.models.Event import Event
 from src.models.Employee import EmployeeBase
+from src.models.Event import Event
 
 
 class NewEmployee(Event):

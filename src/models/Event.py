@@ -3,6 +3,7 @@ import logging
 import os
 from typing import Any
 
+
 class Event(abc.ABC):
     "Abstract class what represents an Event"    
     def __init__(self, name_event: str) -> None:

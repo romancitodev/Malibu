@@ -1,7 +1,10 @@
 from typing import Any
+
 from typing_extensions import Self
+
 from .Event import Event
 from .Importer import Importer
+
 
 class EventManager:
     

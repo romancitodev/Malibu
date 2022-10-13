@@ -1,7 +1,11 @@
-from colorama import init, Fore
-import os, re, glob
+import glob
+import os
+import re
 from types import ModuleType
 from typing import Any, Type, TypeVar
+
+from colorama import Fore, init
+
 T = TypeVar('T', bound=Any)
 init()
 COLORS = Fore.__dict__
@@ -48,7 +52,7 @@ class Importer():
                             if name in [b.__name__ for b in blacklist]:
                                 reason = f"{name} excluded"
                                 raise Reason(reason)
-                        if super_class != None and "ABC" in super_class : 
+                        if super_class != None and "ABC" in super_class:
                             reason = f"{name} is an Abstract Base Class"
                             raise Reason(reason)
                         if super_class != None and super_class in [b.__name__ for b in exclude]:

@@ -1,7 +1,8 @@
+from ..events.new_customer import NewCustomer
+from ..events.new_order import NewOrder
 from ..models.Event import Event
 from ..models.EventManager import EventManager
-from ..events.new_order import NewOrder
-from ..events.new_customer import NewCustomer
+
 
 def setup_listener(listener: EventManager, pre_events: list[Event] = [NewOrder('NewOrder'),NewCustomer('NewCustomer')]) -> EventManager:
     """

@@ -1,6 +1,9 @@
 import abc
-from src.types.Employee import  EmployeeDict, TypesEmployee
+
+from src.types.Employee import EmployeeDict, TypesEmployee
 from src.utils.functions import generate_random_id
+
+
 class EmployeeBase(abc.ABC):
     
     def __init__(self, data: EmployeeDict) -> None:
